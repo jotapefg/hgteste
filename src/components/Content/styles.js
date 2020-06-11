@@ -111,6 +111,13 @@ export const Container = styled.div `
       }
     }
   }
+
+  @media (max-width: 340px) {
+    
+    .containerSelect {
+      width: 274px;
+    }
+  }
 `;
 
 export const Divider = styled.hr `
@@ -125,11 +132,24 @@ export const ContainerCards = styled.div`
   flex-direction: row;
   justify-content: space-around;
   margin-top: 43px;
+
+  .BrainhubCarousel {
+    padding: 0px 10px;
+  }
+
+  @media (max-width: 320px) {
+    .BrainhubCarousel {
+      padding: 0px 0px;
+    }
+  }
 `;
 
 export const Card = styled.div`
 
-  .cardTop {
+  max-width: 329px;
+  width: 100%;
+
+  .cardTop.Plano.M {
     background: #FF6A17 0% 0% no-repeat padding-box;
     border: 1px solid #DFECFF;
     border-radius: 4px 4px 0 0;
@@ -137,7 +157,7 @@ export const Card = styled.div`
     height: 15px;
   }
 
-  .cardBottom {
+  .cardBottom.Plano.M {
     background: #FF6A17 0% 0% no-repeat padding-box;
     border: 1px solid #DFECFF;
     border-radius: 0 0 4px 4px;
@@ -147,7 +167,8 @@ export const Card = styled.div`
   }
 
   .cardBlock {
-    width: 331px;
+    max-width: 331px;
+    width: 100%;
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border: 1px solid #DFECFF;
     border-radius: 4px;
@@ -236,6 +257,22 @@ export const Card = styled.div`
       }
     }
   }
+
+  @media (max-width: 340px) {
+    
+    .cardBlock {
+      .offBox {
+        
+        span {
+          padding: 2px 6px;
+        }
+      }
+
+      .containerRules {
+        padding-left: 16px;
+      }
+    }
+  }
 `;
 
 export const BtnContrate = styled.a`
@@ -250,6 +287,10 @@ export const BtnContrate = styled.a`
   padding: 12px 50px;
   display: inline-block;
   margin: 20px 0px;
+
+  @media (max-width: 340px) {
+    font-size: 0.875rem;
+  }
 `;
 
 export const ContainerLinkConfira = styled.div`
