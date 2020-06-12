@@ -120,7 +120,7 @@ export const CardContainer = styled.div`
       .offBox {
         
         span {
-          padding: 2px 6px;
+          padding: 2px 2px;
         }
       }
 
