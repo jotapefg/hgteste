@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Carousel from '@brainhubeu/react-carousel';
+import Card from '../Card'
 
 import '@brainhubeu/react-carousel/lib/style.css';
-import { Container, Divider, ContainerCards, Card, BtnContrate, ContainerLinkConfira, LinkConfira } from './styles';
+import { Container, ContainerCards, ContainerLinkConfira, LinkConfira } from './styles';
 
 import IconplanoP from '../../assets/icon-plan-p.svg'
 import IconplanoM from '../../assets/icon-plan-m.svg'
 import IconplanoTurbo from '../../assets/icon-plan-turbo.svg'
-import IconInfo from '../../assets/icon-info.svg'
 import ArrowLeft from '../../assets/icon-arrow-left.svg'
 import ArrowRight from '../../assets/icon-arrow-right.svg'
 
@@ -16,8 +16,6 @@ const Content = () => {
 
   const [plans, setPlans] = useState([])
   const [period, setPeriod] = useState('triennially')
-  const [discountValue, ] = useState(40)
-  const [promoCode, ] = useState('PROMOHG40')
 
 
   //Carrega os dados e monta o array.
@@ -44,25 +42,6 @@ const Content = () => {
   //Lida com o evento da troca de periodo
   function handlePeriodChange(event) {
     setPeriod(event.target.value);
-  }
-
-  //Calcula o desconto no valor
-  function calculateDiscount(price){
-    return Number(price - ( price*discountValue/100 ).toFixed(2)).toLocaleString('pt-BR')
-  }
-
-  //Calcula o desconto mensal
-  function calculateDiscountMonth(price, months) {
-    let discount = calculateDiscount(price)
-    discount = Number(discount.replace(',', '.'))
-    return Number((discount/months).toFixed(2)).toLocaleString('pt-BR')
-  }
-
-  //Calcula o desconto total
-  function calculateDiscountTotal(price) {
-    let discount = calculateDiscount(price)
-    discount = Number(discount.replace(',', '.'))
-    return Number((price-discount).toFixed(2)).toLocaleString('pt-BR')
   }
 
   return (
@@ -132,38 +111,7 @@ const Content = () => {
       >
         {
           plans.map(plan => (
-            <Card key={plan.id}>
-              <div className={`cardTop ${plan.name}`}></div>
-              <div className="cardBlock">
-                <img src={plan.icon} alt={plan.name} />
-                <h3>{plan.name}</h3>
-                <Divider />
-                <div className="containerPrices">
-                  <span>R$ {plan.cycle[period].priceOrder}</span> <b>R$ {calculateDiscount(plan.cycle[period].priceOrder)}</b>
-                </div>
-                <p>equivalente a</p>
-                <p className="discount">R$ <b>{calculateDiscountMonth(plan.cycle[period].priceOrder, plan.cycle[period].months)}</b>/mês*</p>
-                <BtnContrate 
-                  href={`?a=add&pid=${plan.id}&billingcycle=${period}&promocode=${promoCode}`}
-                  secondary={plan.name === 'Plano M'}
-                >
-                  Contrate Agora
-                </BtnContrate>
-                <p className="domain">1 ano de Domínio Grátis <img src={IconInfo} alt="info" /></p>
-                <div className="offBox">
-                  <p>economize R$ {calculateDiscountTotal(plan.cycle[period].priceOrder)} <span>{discountValue}% OFF</span></p>
-                </div>
-                <Divider />
-                <div className="containerRules">
-                  <p className="underlineDashed"><span>Para 1 site</span></p>
-                  <p><b>100 GB</b> de Armazenamento</p>
-                  <p className="underlineDashed"><span>Contas de E-mail <b>Ilimitadas</b></span></p>
-                  <p>Criador de Sites <b><u>Grátis</u></b></p>
-                  <p>Certificado SSL <b>Grátis</b> (https)</p>
-                </div>
-              </div>
-              <div className={`cardBottom ${plan.name}`}></div>
-            </Card>
+            <Card key={plan.id} data={plan} period={period} />
           ))
         }
         </Carousel>
