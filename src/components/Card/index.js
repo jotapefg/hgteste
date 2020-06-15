@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Divider, CardContainer, BtnContrate } from './styles';
 import IconInfo from '../../assets/icon-info.svg'
@@ -7,24 +7,31 @@ const Card = ({ data, period }) => {
 
   const [discountValue, ] = useState(40)
   const [promoCode, ] = useState('PROMOHG40')
-
+  const [discountCalculated, setDiscountCalculated] = useState(0)
 
   //Calcula o desconto no valor
-  function calculateDiscount(price){
-    const number = Number(price)
-    return Number(number - ( number*discountValue/100 )).toFixed(2).replace('.', ',')
-  }
+  useEffect(() => {
+    const number = Number(data.cycle[period].priceOrder)
+    setDiscountCalculated(Number(number - ( number*discountValue/100 )).toFixed(2).replace('.', ','))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   //Calcula o desconto mensal
   function calculateDiscountMonth(price, months) {
-    let discount = calculateDiscount(price)
+    let discount = discountCalculated
+    if(discount === 0) {
+      return discount
+    }
     discount = Number(discount.replace(',', '.'))
     return Number((discount/months)).toFixed(2).replace('.', ',')
   }
 
   //Calcula o desconto total
   function calculateDiscountTotal(price) {
-    let discount = calculateDiscount(price)
+    let discount = discountCalculated
+    if(discount === 0) {
+      return discount
+    }
     discount = Number(discount.replace(',', '.'))
     return Number((price-discount)).toFixed(2).replace('.', ',')
   }
@@ -38,7 +45,7 @@ const Card = ({ data, period }) => {
         <h3>{data.name}</h3>
         <Divider />
         <div className="containerPrices">
-          <span>R$ {data.cycle[period].priceOrder.replace('.',',')}</span> <b>R$ {calculateDiscount(data.cycle[period].priceOrder)}</b>
+          <span>R$ {data.cycle[period].priceOrder.replace('.',',')}</span> <b>R$ {discountCalculated}</b>
         </div>
         <p>equivalente a</p>
         <p className="discount">R$ <b>{calculateDiscountMonth(data.cycle[period].priceOrder, data.cycle[period].months)}</b>/mês*</p>
